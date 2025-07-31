@@ -1,0 +1,57 @@
+"use client"
+
+import { StatusFilterEnum } from "@/lib/enum"
+import { Input } from "./ui/input"
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "./ui/select"
+import { Button } from "./ui/button"
+import { createApplication } from "@/app/dashboard/applications/actions"
+import { useTransition } from "react"
+
+export default function ApplicationForm() {
+  const [isPending, startTransition] = useTransition()
+
+  const handleSubmit = async (formData: FormData) => {
+    startTransition(() => {
+      createApplication(formData)
+        .then(() => {
+          // TODO: show toast message
+        })
+        .catch((error) => {
+          // Handle error
+          console.error("Failed to create application:", error)
+        })
+    })
+  }
+
+  return (
+    <form action={handleSubmit} className="space-y-4">
+      <Input type="text" name="company" placeholder="Enter Company Name" />
+      <Input type="text" name="position" placeholder="Enter Job Title" />
+
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Select Status" />
+        </SelectTrigger>
+
+        <SelectContent>
+          <SelectItem value={StatusFilterEnum.Applied}>Applied</SelectItem>
+          <SelectItem value={StatusFilterEnum.Interviewing}>
+            Interviewing
+          </SelectItem>
+          <SelectItem value={StatusFilterEnum.Offer}>Offer</SelectItem>
+          <SelectItem value={StatusFilterEnum.Rejected}>Rejected</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Button type="submit" disabled={isPending} className="w-full">
+        {isPending ? "Creating..." : "Create Application"}
+      </Button>
+    </form>
+  )
+}

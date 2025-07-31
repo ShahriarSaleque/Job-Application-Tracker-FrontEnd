@@ -1,6 +1,14 @@
 "use client"
 import ApplicationCard from "@/components/ApplicationCard"
+import ApplicationForm from "@/components/ApplicationForm"
 import SelectComponent from "@/components/SelectComponent"
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { StatusFilterEnum } from "@/lib/enum"
 
 import { useApplicationFilterStore } from "@/lib/zustandStore"
@@ -53,6 +61,19 @@ export default function ApplicationsPage() {
         ) : (
           <span className="text-neutral-700">No applications found</span>
         )}
+      </div>
+
+      {/* show application form */}
+      <div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Create Application</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Create a new application</DialogTitle>
+            <ApplicationForm />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )
