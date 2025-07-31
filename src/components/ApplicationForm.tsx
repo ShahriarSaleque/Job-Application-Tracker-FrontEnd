@@ -13,8 +13,12 @@ import { Button } from "./ui/button"
 import { createApplication } from "@/app/dashboard/applications/actions"
 import { useTransition } from "react"
 import { useQueryClient } from "@tanstack/react-query"
+import { JobApplication } from "@/lib/types"
 
-export default function ApplicationForm() {
+export default function ApplicationForm({
+  initialData,
+  onSuccess,
+}: ApplicationFormProps) {
   const [isPending, startTransition] = useTransition()
 
   const queryClient = useQueryClient()
@@ -60,4 +64,9 @@ export default function ApplicationForm() {
       </Button>
     </form>
   )
+}
+
+type ApplicationFormProps = {
+  initialData?: JobApplication
+  onSuccess?: () => void
 }
