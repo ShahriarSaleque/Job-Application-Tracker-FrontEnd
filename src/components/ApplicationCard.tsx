@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { StatusFilterEnum } from "@/lib/enum"
+import { JobApplication } from "@/lib/types"
 
 export default function ApplicationCard({ application }: ApplicationCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{application.jobTitle}</CardTitle>
+        <CardTitle>{application.position}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground">{application.company}</p>
@@ -18,10 +18,5 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
 }
 
 type ApplicationCardProps = {
-  application: {
-    id: string
-    company: string
-    jobTitle: string
-    status: StatusFilterEnum
-  }
+  application: JobApplication
 }

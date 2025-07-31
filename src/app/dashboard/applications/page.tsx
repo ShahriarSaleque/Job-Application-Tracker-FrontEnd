@@ -6,42 +6,24 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { StatusFilterEnum } from "@/lib/enum"
+import { useApplications } from "@/lib/hooks/useApplication"
 
 import { useApplicationFilterStore } from "@/lib/zustandStore"
-
-// Mock data - will be removed later
-const mockData = [
-  {
-    id: "1",
-    company: "Google",
-    jobTitle: "Frontend Engineer",
-    status: StatusFilterEnum.Applied,
-  },
-  {
-    id: "2",
-    company: "Amazon",
-    jobTitle: "UI Developer",
-    status: StatusFilterEnum.Interviewing,
-  },
-  {
-    id: "3",
-    company: "Netflix",
-    jobTitle: "React Dev",
-    status: StatusFilterEnum.Offer,
-  },
-]
 
 export default function ApplicationsPage() {
   const { statusFilter, setStatusFilter } = useApplicationFilterStore()
 
+  const { data: application = [], isLoading, error } = useApplications()
+
   const filtered =
     statusFilter === StatusFilterEnum.All
-      ? mockData
-      : mockData.filter((a) => a.status === statusFilter)
+      ? application
+      : application.filter((a) => a.status === statusFilter)
 
   return (
     <div className="space-y-6">
@@ -63,6 +45,9 @@ export default function ApplicationsPage() {
         )}
       </div>
 
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error fetching data</p>}
+
       {/* show application form */}
       <div>
         <Dialog>
@@ -71,6 +56,9 @@ export default function ApplicationsPage() {
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>Create a new application</DialogTitle>
+            <DialogDescription>
+              Fill out the form below to add a new job application.
+            </DialogDescription>
             <ApplicationForm />
           </DialogContent>
         </Dialog>

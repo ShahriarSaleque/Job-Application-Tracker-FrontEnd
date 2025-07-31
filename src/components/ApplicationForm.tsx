@@ -12,15 +12,21 @@ import {
 import { Button } from "./ui/button"
 import { createApplication } from "@/app/dashboard/applications/actions"
 import { useTransition } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 
 export default function ApplicationForm() {
   const [isPending, startTransition] = useTransition()
+
+  const queryClient = useQueryClient()
 
   const handleSubmit = async (formData: FormData) => {
     startTransition(() => {
       createApplication(formData)
         .then(() => {
           // TODO: show toast message
+
+          // revalidate the applications list
+          queryClient.invalidateQueries({ queryKey: ["applications"] })
         })
         .catch((error) => {
           // Handle error

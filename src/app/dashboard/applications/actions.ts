@@ -15,7 +15,6 @@ export async function createApplication(formData: FormData) {
     body: JSON.stringify(payload),
   });
 
-  console.log('response', res);
 
   if (!res.ok) {
     throw new Error("Failed to create application");

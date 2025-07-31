@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils"
 import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
 
+// Bring in tanstack query
+import Providers from "@/app/providers"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
@@ -21,13 +24,15 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen bg-background font-sans", inter.className)}
       >
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <div className="flex flex-1">
-            <Sidebar />
-            <main className="flex-1 p-6">{children}</main>
+        <Providers>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <div className="flex flex-1">
+              <Sidebar />
+              <main className="flex-1 p-6">{children}</main>
+            </div>
           </div>
-        </div>
+        </Providers>
       </body>
     </html>
   )
