@@ -40,7 +40,7 @@ export default function ApplicationForm() {
       <Input type="text" name="company" placeholder="Enter Company Name" />
       <Input type="text" name="position" placeholder="Enter Job Title" />
 
-      <Select>
+      <Select name="status" defaultValue={StatusFilterEnum.Applied}>
         <SelectTrigger>
           <SelectValue placeholder="Select Status" />
         </SelectTrigger>
