@@ -17,6 +17,7 @@ import {
 import { useTransition } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { JobApplication } from "@/lib/types"
+import { toast } from "sonner"
 
 export default function ApplicationForm({
   initialData,
@@ -33,7 +34,11 @@ export default function ApplicationForm({
         : createApplication(formData)
       response
         .then(() => {
-          // TODO: show toast message
+          toast("Application saved successfully", {
+            description: initialData
+              ? "Your application has been updated."
+              : "Your application has been created.",
+          })
           onSuccess?.()
           // revalidate the applications list
           queryClient.invalidateQueries({ queryKey: ["applications"] })

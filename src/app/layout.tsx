@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar"
 
 // Bring in tanstack query
 import Providers from "@/app/providers"
+import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             <div className="flex flex-1">
               <Sidebar />
               <main className="flex-1 p-6">{children}</main>
+              <Toaster />
             </div>
           </div>
         </Providers>
