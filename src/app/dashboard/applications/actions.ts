@@ -25,7 +25,7 @@ export async function createApplication(formData: FormData) {
 
 export async function updateApplication(id: string, formData: FormData) {
   
-    const payload = {
+  const payload = {
     company: formData.get("company"),
     position: formData.get("position"),
     status: formData.get("status"),

@@ -7,6 +7,7 @@ import { Button } from "./ui/button"
 import ApplicationForm from "./ApplicationForm"
 import { deleteApplication } from "@/app/dashboard/applications/actions"
 import { useQueryClient } from "@tanstack/react-query"
+import { DialogTitle } from "@radix-ui/react-dialog"
 
 export default function ApplicationCard({ application }: ApplicationCardProps) {
   const [open, setOpen] = useState(false)
@@ -23,7 +24,7 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
       <CardHeader className="flex justify-between items-start">
         <div>
           <CardTitle>{application.position}</CardTitle>
-          <p className="text-muted-foreground">{application.company}</p>
+          <p className="text-muted-foreground mt-2">{application.company}</p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
@@ -33,6 +34,7 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
             </Button>
           </DialogTrigger>
           <DialogContent>
+            <DialogTitle>Edit Application</DialogTitle>
             <ApplicationForm
               initialData={application}
               onSuccess={() => setOpen(false)}
@@ -45,7 +47,9 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
         <span className="capitalize text-sm font-medium">
           Status: {application.status}
         </span>
-        <Button size="sm" variant="destructive" onClick={handleDelete}></Button>
+        <Button size="sm" variant="destructive" onClick={handleDelete}>
+          Delete
+        </Button>
       </CardContent>
     </Card>
   )
