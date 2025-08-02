@@ -6,3 +6,10 @@ export interface JobApplication {
     processedAt: string;
     status: string;
 }
+
+export interface PayloadType {
+   company: FormDataEntryValue | null
+    position: FormDataEntryValue | null
+    status: FormDataEntryValue | null
+    resume?: string
+}

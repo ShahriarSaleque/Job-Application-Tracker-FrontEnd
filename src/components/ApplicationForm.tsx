@@ -16,7 +16,7 @@ import {
 } from "@/app/dashboard/applications/actions"
 import { useTransition } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { JobApplication } from "@/lib/types"
+import { JobApplication, PayloadType } from "@/lib/types"
 import { toast } from "sonner"
 
 export default function ApplicationForm({
@@ -27,11 +27,63 @@ export default function ApplicationForm({
 
   const queryClient = useQueryClient()
 
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+
   const handleSubmit = async (formData: FormData) => {
+    const resumeFile = formData.get("resume") as File
+
+    const payload: PayloadType = {
+      company: formData.get("company"),
+      position: formData.get("position"),
+      status: formData.get("status"),
+    }
+
+    // if a resume file is provided
+    // call the api to generate a presigned url
+    // to upload to the s3 bucket
+    // and attach the returned url to the payload
+    if (resumeFile) {
+      // Get the presigned URL from the server
+      const preSignedUrl = await fetch(`${API_BASE}/generate-pre-signed-url`, {
+        method: "POST",
+        body: JSON.stringify({
+          fileName: resumeFile.name,
+          contentType: resumeFile.type,
+        }),
+      })
+
+      if (!preSignedUrl.ok) {
+        console.log("Error fetching pre-signed URL:", preSignedUrl)
+        throw new Error("Failed to get pre-signed URL")
+      }
+
+      const { signedUrl, fileUrl } = await preSignedUrl.json()
+
+      console.log("Received signed URL:", signedUrl)
+      console.log("Received file URL:", fileUrl)
+
+      // Upload the file to S3 using the pre-signed URL
+      const uploadResponse = await fetch(signedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": resumeFile.type,
+        },
+        body: resumeFile,
+      })
+
+      if (!uploadResponse.ok) {
+        console.log("Error uploading file to S3:", uploadResponse)
+        throw new Error("Failed to upload file to S3")
+      }
+
+      // Attach the file URL to the payload
+      payload.resume = fileUrl
+    }
+
     startTransition(() => {
       const response = initialData
-        ? updateApplication(initialData.id, formData)
-        : createApplication(formData)
+        ? updateApplication(initialData.id, payload)
+        : createApplication(payload)
       response
         .then(() => {
           toast("Application saved successfully", {
@@ -64,6 +116,8 @@ export default function ApplicationForm({
         placeholder="Enter Job Title"
         defaultValue={initialData?.position}
       />
+
+      <Input type="file" name="resume" accept=".pdf" />
 
       <Select name="status" defaultValue={initialData?.status}>
         <SelectTrigger>

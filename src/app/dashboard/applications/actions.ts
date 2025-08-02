@@ -1,14 +1,11 @@
-"use server"; 
+"use server";
+import { PayloadType } from "@/lib/types";
+
+ 
 
 const API_BASE = process.env.API_URL || 'https://g6yd8c09q4.execute-api.us-east-1.amazonaws.com/Prod/applications';
 
-export async function createApplication(formData: FormData) {
-  const payload = {
-    company: formData.get("company"),
-    position: formData.get("position"),
-    status: formData.get("status"),
-  };
-
+export async function createApplication(payload: PayloadType) {
   const res = await fetch(`${API_BASE}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -23,14 +20,7 @@ export async function createApplication(formData: FormData) {
   return res.json();
 }
 
-export async function updateApplication(id: string, formData: FormData) {
-  
-  const payload = {
-    company: formData.get("company"),
-    position: formData.get("position"),
-    status: formData.get("status"),
-  };
-
+export async function updateApplication(id: string, payload: PayloadType) {
   const res = await fetch(`${API_BASE}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

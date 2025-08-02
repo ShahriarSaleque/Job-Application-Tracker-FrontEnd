@@ -7,7 +7,7 @@ export function useApplications() {
     return useQuery<JobApplication[]>({
         queryKey: ["applications"],
         queryFn: async () => {
-            const response = await fetch(`${API_BASE}`);
+            const response = await fetch(`${API_BASE}/applications`);
             
             if (!response.ok) {
                 throw new Error("Failed to fetch applications");
