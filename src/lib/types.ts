@@ -1,4 +1,5 @@
 export interface JobApplication {
+    resume?: string;
     id: string;
     company: string;
     createdAt: string;

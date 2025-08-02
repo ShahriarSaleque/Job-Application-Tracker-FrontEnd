@@ -62,6 +62,8 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
           alertDialogActionText="Delete"
           onClick={handleDelete}
         />
+
+        {application.resume && <span>Resume Uploaded</span>}
       </CardContent>
     </Card>
   )
