@@ -1,6 +1,7 @@
 "use client"
 import ApplicationCard from "@/components/ApplicationCard"
 import ApplicationForm from "@/components/ApplicationForm"
+import LoadingSpinner from "@/components/LoadingSpinner"
 import SelectComponent from "@/components/SelectComponent"
 import { Button } from "@/components/ui/button"
 import {
@@ -38,16 +39,16 @@ export default function ApplicationsPage() {
       />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.length !== 0 ? (
-          filtered.map((application) => (
-            <ApplicationCard key={application.id} application={application} />
-          ))
-        ) : (
-          <span className="text-neutral-700">No applications found</span>
-        )}
+        {filtered.length !== 0
+          ? filtered.map((application) => (
+              <ApplicationCard key={application.id} application={application} />
+            ))
+          : !isLoading && (
+              <span className="text-neutral-700">No applications found</span>
+            )}
       </div>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <LoadingSpinner />}
       {error && <p>Error fetching data</p>}
 
       {/* show application form */}
