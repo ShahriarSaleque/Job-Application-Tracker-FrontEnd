@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import { StatusFilterEnum } from "./enum";
 
-type StatusFilter = StatusFilterEnum.All | StatusFilterEnum.Applied | StatusFilterEnum.Interviewing | StatusFilterEnum.Offer | StatusFilterEnum.Rejected;
+type StatusFilter = StatusFilterEnum.All | StatusFilterEnum.Applied | StatusFilterEnum.Interviewing | StatusFilterEnum.Offer | StatusFilterEnum.Rejected | StatusFilterEnum.Processed;
 
 interface Store {
     statusFilter: StatusFilter;

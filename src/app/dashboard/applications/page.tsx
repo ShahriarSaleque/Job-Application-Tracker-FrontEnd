@@ -14,9 +14,11 @@ import { StatusFilterEnum } from "@/lib/enum"
 import { useApplications } from "@/lib/hooks/useApplication"
 
 import { useApplicationFilterStore } from "@/lib/zustandStore"
+import { useState } from "react"
 
 export default function ApplicationsPage() {
   const { statusFilter, setStatusFilter } = useApplicationFilterStore()
+  const [open, setOpen] = useState(false)
 
   const { data: application = [], isLoading, error } = useApplications()
 
@@ -50,7 +52,7 @@ export default function ApplicationsPage() {
 
       {/* show application form */}
       <div>
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="outline">Create Application</Button>
           </DialogTrigger>
@@ -59,7 +61,7 @@ export default function ApplicationsPage() {
             <DialogDescription>
               Fill out the form below to add a new job application.
             </DialogDescription>
-            <ApplicationForm />
+            <ApplicationForm onSuccess={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>

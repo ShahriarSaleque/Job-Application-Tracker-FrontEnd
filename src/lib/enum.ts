@@ -4,4 +4,5 @@ export enum StatusFilterEnum {
     Interviewing = "interviewing",
     Offer = "offer",
     Rejected = "rejected",
+    Processed = "Processed",
 }

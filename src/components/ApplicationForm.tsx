@@ -77,6 +77,7 @@ export default function ApplicationForm({
           </SelectItem>
           <SelectItem value={StatusFilterEnum.Offer}>Offer</SelectItem>
           <SelectItem value={StatusFilterEnum.Rejected}>Rejected</SelectItem>
+          <SelectItem value={StatusFilterEnum.Processed}>Processed</SelectItem>
         </SelectContent>
       </Select>
 
