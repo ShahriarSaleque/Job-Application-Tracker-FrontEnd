@@ -9,12 +9,19 @@ import { deleteApplication } from "@/app/dashboard/applications/actions"
 import { useQueryClient } from "@tanstack/react-query"
 import { DialogTitle } from "@radix-ui/react-dialog"
 
+import AlertDialogComponent from "./AlertDialogComponent"
+import { toast } from "sonner"
+
 export default function ApplicationCard({ application }: ApplicationCardProps) {
   const [open, setOpen] = useState(false)
   const queryClient = useQueryClient()
 
   const handleDelete = async () => {
     await deleteApplication(application.id)
+
+    toast("Application Deleted", {
+      description: "Your application has been updated.",
+    })
 
     // invalidate the applications list
     queryClient.invalidateQueries({ queryKey: ["applications"] })
@@ -47,9 +54,14 @@ export default function ApplicationCard({ application }: ApplicationCardProps) {
         <span className="capitalize text-sm font-medium">
           Status: {application.status}
         </span>
-        <Button size="sm" variant="destructive" onClick={handleDelete}>
-          Delete
-        </Button>
+
+        {/* Alert dialog for delete */}
+        <AlertDialogComponent
+          alertDialogTitle="Are you sure?"
+          alertDialogDescription="This action cannot be undone. The application will be permanently deleted."
+          alertDialogActionText="Delete"
+          onClick={handleDelete}
+        />
       </CardContent>
     </Card>
   )
